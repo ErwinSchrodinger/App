@@ -1,0 +1,34 @@
+request报文
+
+
+{
+	"body":{
+		"account":"test",
+		"password":"123456",
+		"name":"二愣子",
+		"sex":0,
+	}
+	"head":{
+		"transNoSource":1, //客户端报文唯一流水号
+		"transTimeSource":201303122245 //客户端发送时间
+	}
+}
+
+
+response报文
+
+
+{
+	"body":{
+		"status": {
+			stausCode:"0000", //请求处理状态，0000表示处理成功，其他表示出现错误
+			statusDesc:"success" //状态描述，当发生错误时，用来描述该错误
+		}
+	}
+	"head":{
+		"transNoSource":3,//服务端报文唯一流水号
+		"transTimeSource":201303122345, //服务端发送时间
+		"transNoDestination":1, //客户端上送到报文唯一流水号
+		"transTimeDestination":201303122245 //客户端上送的发送时间
+	}
+}
