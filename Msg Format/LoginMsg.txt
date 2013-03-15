@@ -3,14 +3,15 @@ request报文
 
 {
 	"body":{
-		"user_type":0,//标识登录类型，0为普通用户、1为微博用户、2为腾讯用户
+		"userType":0,//标识登录类型，0为普通用户、1为微博用户、2为腾讯用户
 		"account":"test",//当登录类型为0是有account和password
 		"password":"123456",
 		"openid":"abcdadf"//当登录类型不为0是有openid
 	}
 	"head":{
 		"transNoSource":1, //客户端报文唯一流水号
-		"transTimeSource":201303122245 //客户端发送时间
+		"transTimeSource":201303122245, //客户端发送时间
+		"transType":"1000"
 	}
 }
 
@@ -27,12 +28,13 @@ response报文
 		"id":1,//我们自有用户体系的用户唯一标识符
 		"name":"二愣子",
 		"sex":0, //0未知，1公，2母
-		"last_login_time":201303122245,
+		"lastLoginTime":201303122245,
 	}
 	"head":{
 		"transNoSource":3,//服务端报文唯一流水号
 		"transTimeSource":201303122345, //服务端发送时间
 		"transNoDestination":1, //客户端上送到报文唯一流水号
-		"transTimeDestination":201303122245 //客户端上送的发送时间
+		"transTimeDestination":201303122245, //客户端上送的发送时间
+		"transType":"1000"
 	}
 }
