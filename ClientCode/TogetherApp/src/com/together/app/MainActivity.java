@@ -100,6 +100,14 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+        findViewById(R.id.regBtn).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                register();
+            }
+        });
+
         mSinaManager = SinaManager.getInstance();
         findViewById(R.id.login_sina).setOnClickListener(new OnClickListener() {
 
@@ -130,6 +138,9 @@ public class MainActivity extends BaseActivity {
             hideDialog();
             if (success) {
                 showToast(R.string.toast_login_success);
+                Intent intent = new Intent(this, ContentActivity.class);
+                startActivity(intent);
+                finish();
             }
             break;
         case AbstractModel.MODEL_ACTION_SINA_UID:
@@ -141,7 +152,6 @@ public class MainActivity extends BaseActivity {
             if (!success) {
                 hideDialog();
             } else {
-                setTitle(DataEngine.getInstance().getSinaName());
                 setDialogText(R.string.dialog_create_account);
                 loginBySina();
             }
@@ -150,7 +160,6 @@ public class MainActivity extends BaseActivity {
             if (!success) {
                 hideDialog();
             } else {
-                setTitle(DataEngine.getInstance().getTencentName());
                 setDialogText(R.string.dialog_create_account);
                 loginByTencent();
             }
@@ -178,11 +187,20 @@ public class MainActivity extends BaseActivity {
         mNetModel.doAction(AbstractModel.MODEL_ACTION_LOGIN);
     }
 
+    private void register() {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+    }
+
     private void loginBySina() {
         Bundle data = new Bundle();
         data.putInt(Constant.KEY_USER_TYPE, Constant.TYPE_USER_SINA);
         data.putString(Constant.KEY_OPENID, DataEngine.getInstance()
                 .getSinaUID());
+        data.putString(Constant.KEY_NAME, DataEngine.getInstance()
+                .getSinaName());
+        data.putString(Constant.KEY_AVATAR, DataEngine.getInstance()
+                .getSinaAvatar());
         mNetModel.put(AbstractModel.KEY_SUBMIT_INFO, data);
         mNetModel.doAction(AbstractModel.MODEL_ACTION_LOGIN);
     }
@@ -192,6 +210,10 @@ public class MainActivity extends BaseActivity {
         data.putInt(Constant.KEY_USER_TYPE, Constant.TYPE_USER_TECENT);
         data.putString(Constant.KEY_OPENID, DataEngine.getInstance()
                 .getTencentUID());
+        data.putString(Constant.KEY_NAME, DataEngine.getInstance()
+                .getTencentName());
+        data.putString(Constant.KEY_AVATAR, DataEngine.getInstance()
+                .getTencentAvatar());
         mNetModel.put(AbstractModel.KEY_SUBMIT_INFO, data);
         mNetModel.doAction(AbstractModel.MODEL_ACTION_LOGIN);
     }

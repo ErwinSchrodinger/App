@@ -10,7 +10,8 @@ request报文
 	}
 	"head":{
 		"transNoSource":1, //客户端报文唯一流水号
-		"transTimeSource":201303122245 //客户端发送时间
+		"transTimeSource":201303122245, //客户端发送时间
+		"transType":"1001"
 	}
 }
 
@@ -29,6 +30,7 @@ response报文
 		"transNoSource":3,//服务端报文唯一流水号
 		"transTimeSource":201303122345, //服务端发送时间
 		"transNoDestination":1, //客户端上送到报文唯一流水号
-		"transTimeDestination":201303122245 //客户端上送的发送时间
+		"transTimeDestination":201303122245, //客户端上送的发送时间
+		"transType":"1001"
 	}
 }

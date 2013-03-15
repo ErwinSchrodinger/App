@@ -24,11 +24,8 @@ public class NetModel extends AbstractModel {
             int action = data.getInt(KEY_ACTION);
             boolean success = Errors.ERROR_SUCCESS.equalsIgnoreCase(respCode);
             if (!success) {
-                if (null != respMsg && 0 < respMsg.length()) {
-                    put(KEY_DIALOG_ERROR_MSG, respMsg);
-                } else {
-                    put(KEY_DIALOG_ERROR_CODE, respCode);
-                }
+                put(KEY_DIALOG_ERROR_CODE, respCode);
+                put(KEY_DIALOG_ERROR_MSG, respMsg);
             }
 
             postModelEvent(action, success);
@@ -50,7 +47,7 @@ public class NetModel extends AbstractModel {
     public synchronized void doAction(int action) {
         switch (action) {
         case MODEL_ACTION_LOGIN:
-            doLogin();
+            login();
             break;
         case MODEL_ACTION_SINA_UID:
             getSinaUID();
@@ -60,6 +57,9 @@ public class NetModel extends AbstractModel {
             break;
         case MODEL_ACTION_TENCENT_INFO:
             getTencentInfo();
+            break;
+        case MODEL_ACTION_REGISTER:
+            register();
             break;
         }
     }
@@ -77,7 +77,7 @@ public class NetModel extends AbstractModel {
         mHandler.sendMessage(msg);
     }
 
-    private void doLogin() {
+    private void login() {
         Bundle data = (Bundle) fetch(KEY_SUBMIT_INFO);
         AsyncHttpRunner.login(data, this);
     }
@@ -92,6 +92,11 @@ public class NetModel extends AbstractModel {
 
     private void getTencentInfo() {
         AsyncHttpRunner.getTencentInfo(this);
+    }
+
+    private void register() {
+        Bundle data = (Bundle) fetch(KEY_SUBMIT_INFO);
+        AsyncHttpRunner.register(data, this);
     }
 
     private NetModel() {

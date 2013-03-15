@@ -60,7 +60,7 @@ public abstract class BaseActivity extends Activity implements IModelListener {
                     .getString(AbstractModel.KEY_DIALOG_ERROR_CODE);
             String errorMsg = mNetModel
                     .getString(AbstractModel.KEY_DIALOG_ERROR_MSG);
-            if (null != errorMsg && 0 == errorMsg.length()) {
+            if (null != errorMsg && 0 != errorMsg.length()) {
                 showToast(errorMsg);
             } else {
                 showToast(Errors.getLocalErrorMsg(errorCode));

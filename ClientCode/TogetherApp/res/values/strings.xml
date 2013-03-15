@@ -6,14 +6,18 @@
     <string name="btn_login">登录</string>
     <string name="btn_ok">确定</string>
     <string name="btn_cancel">取消</string>
+    <string name="btn_register">注册</string>
     
     <string name="tip_account_type">可以用以下账号登陆</string>
     <string name="tip_account_normal">或者</string>
     <string name="tip_account_tencent">QQ登录</string>
     <string name="tip_account_sina">微博登录</string>
     
+    <string name="format_last_login_time">最近登录时间：yyyy-MM-dd HH:mm</string>
+    
     <string name="hint_account">请输入您的用户名</string>
     <string name="hint_password">请输入您的密码</string>
+    <string name="hint_nick">请输入您的昵称</string>
     
     <string name="error_crash">抱歉，程序出现异常，即将退出</string>
     <string name="error_network">网络不给力啊，等等再试吧</string>
@@ -25,12 +29,16 @@
     
     <string name="toast_account_empty">请输入您的帐号</string>
     <string name="toast_password_empty">请输入您的密码</string>
+    <string name="toast_name_empty">请输入您的昵称</string>
     <string name="toast_sina_success">微博登录成功</string>
     <string name="toast_tencent_success">QQ登录成功</string>
     <string name="toast_login_success">登录成功</string>
+    <string name="toast_register_success">注册成功</string>
     
     <string name="dialog_loading">处理中</string>
     <string name="dialog_create_account">正在为您生成一起帐号</string>
     
     <string name="title_tencent_auth">授权</string>
+    <string name="title_register">注册</string>
+    <string name="title_login">登录</string>
 </resources>

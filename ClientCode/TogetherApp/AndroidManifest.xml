@@ -30,6 +30,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="com.together.app.ContentActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+        </activity>
+        <activity
+            android:name="com.together.app.RegisterActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+        </activity>
+        <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:noHistory="true"
             android:launchMode="singleTask"

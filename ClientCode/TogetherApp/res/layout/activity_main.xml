@@ -3,15 +3,13 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:gravity="center_horizontal"
-    android:scrollbars="none"
-    tools:context=".MainActivity">
+    android:scrollbars="none">
     <LinearLayout 
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:orientation="vertical"
 	    android:gravity="center_horizontal"
-	    android:scrollbars="none"
-	    tools:context=".MainActivity">
+	    android:scrollbars="none">
 	    
 	    <include 
 	        layout="@layout/view_title"
@@ -126,6 +124,13 @@
 	            android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/btn_login"
+                android:layout_marginTop="@dimen/activity_vertical_margin"/>
+	        
+            <Button 
+                android:id="@+id/regBtn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_register"
                 android:layout_marginTop="@dimen/activity_vertical_margin"/>
 	    </LinearLayout>
 	</LinearLayout>

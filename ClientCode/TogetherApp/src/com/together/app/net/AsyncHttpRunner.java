@@ -31,7 +31,10 @@ public class AsyncHttpRunner {
                                 data.getString(Constant.KEY_PASSWORD));
                     } else {
                         message = MessageFactory.getLoginMsg(type,
-                                data.getString(Constant.KEY_OPENID));
+                                data.getString(Constant.KEY_OPENID),
+                                data.getString(Constant.KEY_NAME),
+                                data.getString(Constant.KEY_AVATAR));
+
                     }
 
                     String response = HttpManager.sendMessage(
@@ -39,11 +42,14 @@ public class AsyncHttpRunner {
                             message, HttpManager.POST);
 
                     if (null != response) {
-                        JSONObject status = new JSONObject(response)
+                        JSONObject body = new JSONObject(response)
+                                .getJSONObject(Constant.KEY_BODY);
+                        JSONObject status = body
                                 .getJSONObject(Constant.KEY_STATUS);
                         String respCode = status
                                 .getString(Constant.KEY_STATUS_CODE);
                         if (Errors.ERROR_SUCCESS.equals(respCode)) {
+                            DataEngine.getInstance().initTogetherInfo(body);
                             listener.onRequestComplete(
                                     AbstractModel.MODEL_ACTION_LOGIN, respCode,
                                     null);
@@ -62,6 +68,57 @@ public class AsyncHttpRunner {
                     e.printStackTrace();
                     listener.onRequestComplete(
                             AbstractModel.MODEL_ACTION_LOGIN,
+                            Errors.ERROR_RESPONSE_FORMAT, null);
+                }
+            }
+        }.start();
+    }
+
+    public static final void register(final Bundle data,
+            final IHttpRequestListener listener) {
+        new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    String message = null;
+                    message = MessageFactory.getRegisterMsg(
+                            data.getString(Constant.KEY_ACCOUNT),
+                            data.getString(Constant.KEY_PASSWORD),
+                            data.getString(Constant.KEY_NAME),
+                            data.getInt(Constant.KEY_SEX));
+
+                    String response = HttpManager.sendMessage(
+                            AppConfig.SERVER_URL + Constant.ACTION_REGISTER,
+                            message, HttpManager.POST);
+
+                    if (null != response) {
+                        JSONObject body = new JSONObject(response)
+                                .getJSONObject(Constant.KEY_BODY);
+                        JSONObject status = body
+                                .getJSONObject(Constant.KEY_STATUS);
+                        String respCode = status
+                                .getString(Constant.KEY_STATUS_CODE);
+                        if (Errors.ERROR_SUCCESS.equals(respCode)) {
+                            listener.onRequestComplete(
+                                    AbstractModel.MODEL_ACTION_REGISTER,
+                                    respCode, null);
+                        } else {
+                            listener.onRequestComplete(
+                                    AbstractModel.MODEL_ACTION_REGISTER,
+                                    respCode,
+                                    status.getString(Constant.KEY_STATUS_DESC));
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    listener.onRequestComplete(
+                            AbstractModel.MODEL_ACTION_REGISTER,
+                            Errors.ERROR_NETWORK, null);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    listener.onRequestComplete(
+                            AbstractModel.MODEL_ACTION_REGISTER,
                             Errors.ERROR_RESPONSE_FORMAT, null);
                 }
             }

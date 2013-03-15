@@ -25,14 +25,29 @@ public class MessageFactory {
         return result.toString();
     }
 
-    public static final String getLoginMsg(int loginType, String openid)
-            throws JSONException {
+    public static final String getLoginMsg(int loginType, String openid,
+            String name, String avatar) throws JSONException {
         JSONObject result = new JSONObject();
         addHead(result, "1000");
         JSONObject body = new JSONObject();
         result.put(Constant.KEY_BODY, body);
         body.put(Constant.KEY_USER_TYPE, loginType);
         body.put(Constant.KEY_OPENID, openid);
+        body.put(Constant.KEY_NAME, name);
+        body.put(Constant.KEY_AVATAR, avatar);
+        return result.toString();
+    }
+
+    public static final String getRegisterMsg(String account, String password,
+            String name, int sex) throws JSONException {
+        JSONObject result = new JSONObject();
+        addHead(result, "1002");
+        JSONObject body = new JSONObject();
+        result.put(Constant.KEY_BODY, body);
+        body.put(Constant.KEY_ACCOUNT, account);
+        body.put(Constant.KEY_PASSWORD, password);
+        body.put(Constant.KEY_NAME, name);
+        body.put(Constant.KEY_SEX, sex);
         return result.toString();
     }
 

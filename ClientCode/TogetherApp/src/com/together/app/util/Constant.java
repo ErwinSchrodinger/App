@@ -2,10 +2,15 @@ package com.together.app.util;
 
 public class Constant {
     public static final String ACTION_LOGIN = "login";
+    public static final String ACTION_REGISTER = "userregister";
 
     public static final int TYPE_USER_NORMAL = 0;
     public static final int TYPE_USER_SINA = 1;
     public static final int TYPE_USER_TECENT = 2;
+
+    public static final int GENDER_UNKNOWN = 0;
+    public static final int GENDER_MALE = 1;
+    public static final int GENDER_FEMALE = 2;
 
     public static final String KEY_BODY = "body";
     public static final String KEY_HEAD = "head";
@@ -19,6 +24,7 @@ public class Constant {
     public static final String KEY_ID = "id";
     public static final String KEY_NAME = "name";
     public static final String KEY_SEX = "sex";
+    public static final String KEY_AVATAR = "avatar";
     public static final String KEY_LAST_LOGIN_TIME = "lastLoginTime";
     public static final String KEY_TRANS_NO_SOURCE = "transNoSource";
     public static final String KEY_TRANS_TIME_SOURCE = "transTimeSource";

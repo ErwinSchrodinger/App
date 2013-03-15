@@ -9,6 +9,7 @@ public abstract class AbstractModel implements IHttpRequestListener {
     public static final int MODEL_ACTION_LOCAL_ERROR = MODEL_ACTION_BASE + 1;
     public static final int MODEL_ACTION_SHOW_ERROR_MESSAGE = MODEL_ACTION_BASE + 2;
     public static final int MODEL_ACTION_LOGIN = MODEL_ACTION_BASE + 3;
+    public static final int MODEL_ACTION_REGISTER = MODEL_ACTION_BASE + 4;
 
     public static final int MODEL_ACTION_SINA_BASE = 1000;
     public static final int MODEL_ACTION_SINA_UID = MODEL_ACTION_SINA_BASE + 1;
