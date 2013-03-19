@@ -16,7 +16,7 @@ public class UrlImageView extends ImageView {
     private int mImageWidth = -1;
     private int mImageHeight = -1;
     private String mUrl;
-    private Drawable mDefaultDrawable;
+    private Bitmap mDefaultImg;
     private boolean isImageLoaded = false;
     private UPUrlImageLoadCallback mCallback;
 
@@ -42,7 +42,7 @@ public class UrlImageView extends ImageView {
         if (null == url || url.equalsIgnoreCase(mUrl) && isImageLoaded) {
             return;
         }
-        setImageDrawable(mDefaultDrawable);
+        setImageBitmap(mDefaultImg);
         mUrl = url;
         isImageLoaded = false;
         new ImageLoadTask().execute(url);
@@ -60,10 +60,20 @@ public class UrlImageView extends ImageView {
         mCallback = callback;
     }
 
-    public void setDefaultDrawable(Drawable drawable) {
-        mDefaultDrawable = drawable;
+    public void setDefaultBitmap(Bitmap bitmap) {
+        if (-1 != mImageWidth && -1 != mImageHeight) {
+            Bitmap target = Bitmap.createScaledBitmap(bitmap, mImageWidth,
+                    mImageHeight, true);
+            if (bitmap != target) {
+                bitmap.recycle();
+                bitmap = null;
+            }
+            mDefaultImg = target.copy(target.getConfig(), target.isMutable());
+        } else {
+            mDefaultImg = bitmap.copy(bitmap.getConfig(), bitmap.isMutable());
+        }
         if (!isImageLoaded) {
-            setImageDrawable(mDefaultDrawable);
+            setImageBitmap(mDefaultImg);
         }
     }
 

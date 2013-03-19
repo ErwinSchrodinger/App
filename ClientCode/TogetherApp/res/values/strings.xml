@@ -12,6 +12,19 @@
     <string name="tip_account_normal">或者</string>
     <string name="tip_account_tencent">QQ登录</string>
     <string name="tip_account_sina">微博登录</string>
+    <string name="tip_loading">加载中。。。</string>
+    <string name="tip_load_fail">网络不给力啊亲，加载失败了。。。</string>
+    <string name="tip_load_search_empty">暂时没有发现活动哦，换个条件试试吧</string>
+    <string name="tip_reload">"&lt;u&gt;点击重试&lt;/u&gt;"</string>
+    <string name="tip_pull_to_refresh_tap">点击刷新</string>
+    <string name="tip_pull_to_refresh_pull">下拉可以刷新</string>
+    <string name="tip_pull_to_refresh_release">松开可以刷新</string>
+    <string name="tip_pull_to_refresh_refreshing">加载中</string>
+    <string name="tip_pull_to_refresh_time">最近更新于:%s</string>
+    <string name="tip_more">更多</string>
+    <string name="tip_event_author">活动发起人：  %s</string>
+    <string name="tip_event_address">活动地址：  %s</string>
+    <string name="tip_event_time">活动时间：  %s</string>
     
     <string name="format_last_login_time">最近登录时间：yyyy-MM-dd HH:mm</string>
     

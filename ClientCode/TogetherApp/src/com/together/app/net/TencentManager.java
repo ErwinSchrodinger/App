@@ -12,7 +12,7 @@ import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 import com.together.app.data.DataEngine;
 import com.together.app.data.TencentAccessToken;
-import com.together.app.util.AccessTokenKeeper;
+import com.together.app.util.SharePreferencesKeeper;
 
 public class TencentManager {
     public static final String APP_ID = "222222";// 替换为开发者的appkey，例如"1646212860";
@@ -46,8 +46,8 @@ public class TencentManager {
                         String openid = arg0.getString("openid");
                         mToken = new TencentAccessToken(token, expires_in,
                                 openid);
-                        AccessTokenKeeper.keepTencentAccessToken(mToken);
-                        AccessTokenKeeper.clearSina();
+                        SharePreferencesKeeper.keepTencentAccessToken(mToken);
+                        SharePreferencesKeeper.clearSina();
                         DataEngine.getInstance().setTencentUID(openid);
                         listener.onComplete(arg0);
                     } catch (JSONException e) {
@@ -84,7 +84,7 @@ public class TencentManager {
     public void init(Context context) {
         mContext = context;
         mTencent = Tencent.createInstance(APP_ID, mContext);
-        mToken = AccessTokenKeeper.readTencentAccessToken();
+        mToken = SharePreferencesKeeper.readTencentAccessToken();
         mTencent.setAccessToken(mToken.getToken(), mToken.getExpiresTime());
         mTencent.setOpenId(mToken.getOpenID());
     }

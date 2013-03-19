@@ -31,7 +31,7 @@ public class MainActivity extends BaseActivity {
         @Override
         public void onComplete(Bundle values) {
             if (mSinaManager.isSessionValid()) {
-                showProgress(R.string.dialog_loading);
+                showProgressDialog(R.string.dialog_loading);
                 getSinaInfo();
             } else {
                 hideDialog();
@@ -69,7 +69,7 @@ public class MainActivity extends BaseActivity {
         @Override
         public void onComplete(JSONObject arg0) {
             if (mTencentManager.isSessionValid()) {
-                showProgress(R.string.dialog_loading);
+                showProgressDialog(R.string.dialog_loading);
                 getTencentInfo();
             } else {
                 hideDialog();

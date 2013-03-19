@@ -1,6 +1,7 @@
 package com.together.app.data;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import org.json.JSONException;
@@ -19,11 +20,13 @@ public class DataEngine {
 
     private TogetherInfo mTogetherInfo;
 
+    private ArrayList<Event> mEventList = new ArrayList<Event>();
+
     private class UserInfo {
         String uid;
         String name;
         String avatar;
-        // String avatarLarge;
+        String avatarLarge;
     }
 
     public class SinaInfo extends UserInfo {
@@ -62,9 +65,9 @@ public class DataEngine {
         return mSinaInfo.avatar;
     }
 
-    // public synchronized String getSinaAvatarLarge() {
-    // return mSinaInfo.avatarLarge;
-    // }
+    public synchronized String getSinaAvatarLarge() {
+        return mSinaInfo.avatarLarge;
+    }
 
     public synchronized void setTencentUID(String id) {
         mTencentInfo.uid = id;
@@ -82,9 +85,9 @@ public class DataEngine {
         return mTencentInfo.avatar;
     }
 
-    // public synchronized String getTencentAvatarLarge() {
-    // return mTencentInfo.avatarLarge;
-    // }
+    public synchronized String getTencentAvatarLarge() {
+        return mTencentInfo.avatarLarge;
+    }
 
     public synchronized int getCurrentUserType() {
         return mCurrentUserType;
@@ -94,9 +97,10 @@ public class DataEngine {
         mCurrentUserType = userType;
     }
 
-    // public synchronized UserInfo getUserInfo() {
-    // return mTogetherInfo;
-    // }
+    public synchronized UserInfo getUserInfo() {
+        return mTogetherInfo;
+    }
+
     public synchronized String getUserID() {
         return mTogetherInfo.uid;
     }
@@ -108,6 +112,10 @@ public class DataEngine {
     public synchronized String getUserAvatar() {
         return mTogetherInfo.avatar;
     }
+
+    // public synchronized String getUserAvatarLarge() {
+    // return mTogetherInfo.avatarLarge;
+    // }
 
     public synchronized int getUserGender() {
         return mTogetherInfo.gender;
@@ -128,17 +136,16 @@ public class DataEngine {
         mSinaInfo.name = json.getString(SinaConstant.KEY_NAME);
         mSinaInfo.gender = mapSinaGender(json
                 .getString(SinaConstant.KEY_GENDER));
-        mSinaInfo.avatar = json.getString(SinaConstant.KEY_AVATAR_LARGE);
-        // mSinaInfo.avatarLarge =
-        // json.getString(SinaConstant.KEY_AVATAR_LARGE);
+        mSinaInfo.avatar = json.getString(SinaConstant.KEY_AVATAR_SMALL);
+        mSinaInfo.avatarLarge = json.getString(SinaConstant.KEY_AVATAR_LARGE);
     }
 
     public synchronized void initTencentInfo(JSONObject json)
             throws JSONException {
         mTencentInfo.name = json.getString(TencentConstant.KEY_NAME);
-        mTencentInfo.avatar = json.getString(TencentConstant.KEY_AVATAR_LARGE);
-        // mTencentInfo.avatarLarge = json
-        // .getString(TencentConstant.KEY_AVATAR_LARGE);
+        mTencentInfo.avatar = json.getString(TencentConstant.KEY_AVATAR_SMALL);
+        mTencentInfo.avatarLarge = json
+                .getString(TencentConstant.KEY_AVATAR_LARGE);
     }
 
     public synchronized void initTogetherInfo(JSONObject json)
@@ -149,6 +156,32 @@ public class DataEngine {
         mTogetherInfo.gender = json.getInt(Constant.KEY_SEX);
         mTogetherInfo.lastLoginTime = json
                 .getLong(Constant.KEY_LAST_LOGIN_TIME);
+    }
+
+    public synchronized Event[] getEventList() {
+        return mEventList.toArray(new Event[0]);
+    }
+
+    public synchronized Event getEvent(int eventID) {
+        for (Event e : mEventList) {
+            if (eventID == e.getEventId()) {
+                return e;
+            }
+        }
+        return null;
+    }
+
+    public synchronized void addEvent(Event event) {
+        mEventList.add(event);
+    }
+
+    public synchronized void addOrUpdateEvent(Event event) {
+        Event e = getEvent(event.getEventId());
+        if (null == e) {
+            addEvent(event);
+        } else {
+            e.updateEvent(event);
+        }
     }
 
     private DataEngine() {

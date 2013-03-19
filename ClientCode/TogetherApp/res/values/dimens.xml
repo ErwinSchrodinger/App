@@ -4,7 +4,11 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="title_height">50dp</dimen>
+    <dimen name="title_avatar_size">40dp</dimen>
+    <dimen name="event_img_size">60dp</dimen>
     <dimen name="title_padding">10dp</dimen>
+    <dimen name="event_list_padding">10dp</dimen>
+    <dimen name="event_list_footer_height">50dp</dimen>
     
     <dimen name="text_size_normal">15sp</dimen>
     <dimen name="text_size_small">12sp</dimen>

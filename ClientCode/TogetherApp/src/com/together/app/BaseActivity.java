@@ -3,6 +3,7 @@ package com.together.app;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -13,13 +14,21 @@ import com.together.app.net.AbstractModel;
 import com.together.app.net.IModelListener;
 import com.together.app.net.NetModel;
 import com.together.app.ui.AppDialog;
+import com.together.app.ui.UrlImageView;
 import com.together.app.util.AppLog;
 import com.together.app.util.Errors;
 
 public abstract class BaseActivity extends Activity implements IModelListener {
     protected static final int MSG_ACTION_RESULT = 0;
     private TextView mTitle;
+    private UrlImageView mAvatar;
     private Button mRightBtn;
+
+    private View mLoadingView;
+    private View mContentView;
+    private View mLoadFailView;
+    private View mLoadEmptyView;
+    private TextView mReloadBtn;
 
     protected NetModel mNetModel;
     protected AppDialog mDialog;
@@ -68,11 +77,68 @@ public abstract class BaseActivity extends Activity implements IModelListener {
         }
     }
 
-    protected void showProgress(int resid) {
-        showProgress(getResources().getString(resid));
+    protected void showLoadingView() {
+        if (null == mLoadingView) {
+            initLoadingView();
+        }
+        mLoadingView.setVisibility(View.VISIBLE);
+        mLoadFailView.setVisibility(View.GONE);
+        mContentView.setVisibility(View.GONE);
+        mLoadEmptyView.setVisibility(View.GONE);
     }
 
-    protected void showProgress(CharSequence message) {
+    protected void showLoadFailView() {
+        if (null == mLoadingView) {
+            initLoadingView();
+        }
+        mLoadFailView.setVisibility(View.VISIBLE);
+        mLoadingView.setVisibility(View.GONE);
+        mContentView.setVisibility(View.GONE);
+        mLoadEmptyView.setVisibility(View.GONE);
+    }
+
+    protected void showContentView() {
+        if (null == mLoadingView) {
+            initLoadingView();
+        }
+        mContentView.setVisibility(View.VISIBLE);
+        mLoadFailView.setVisibility(View.GONE);
+        mLoadingView.setVisibility(View.GONE);
+        mLoadEmptyView.setVisibility(View.GONE);
+    }
+
+    protected void showEmptyView() {
+        if (null == mLoadingView) {
+            initLoadingView();
+        }
+        mLoadEmptyView.setVisibility(View.VISIBLE);
+        mLoadFailView.setVisibility(View.GONE);
+        mLoadingView.setVisibility(View.GONE);
+        mContentView.setVisibility(View.GONE);
+    }
+
+    private void initLoadingView() {
+        mLoadingView = findViewById(R.id.loading_view);
+        mLoadFailView = findViewById(R.id.loading_fail_view);
+        mLoadEmptyView = findViewById(R.id.loading_empty_view);
+        mContentView = findViewById(R.id.content_view);
+        mReloadBtn = (TextView) findViewById(R.id.reloadBtn);
+        mReloadBtn.setText(Html.fromHtml(getString(R.string.tip_reload)));
+        mReloadBtn.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                showLoadingView();
+                onReloadContent();
+            }
+        });
+    }
+
+    protected void showProgressDialog(int resid) {
+        showProgressDialog(getResources().getString(resid));
+    }
+
+    protected void showProgressDialog(CharSequence message) {
         hideDialog();
         showDialog(this, AppDialog.PROGRESS, message);
     }
@@ -84,20 +150,20 @@ public abstract class BaseActivity extends Activity implements IModelListener {
         }
     }
 
-    protected void showInfo(int resid) {
-        showInfo(getResources().getString(resid));
+    protected void showInfoDialog(int resid) {
+        showInfoDialog(getResources().getString(resid));
     }
 
-    protected void showInfo(CharSequence message) {
+    protected void showInfoDialog(CharSequence message) {
         hideDialog();
         showDialog(this, AppDialog.INFO, message);
     }
 
-    protected void showAlert(int resid) {
-        showAlert(getResources().getString(resid));
+    protected void showAlertDialog(int resid) {
+        showAlertDialog(getResources().getString(resid));
     }
 
-    protected void showAlert(CharSequence message) {
+    protected void showAlertDialog(CharSequence message) {
         hideDialog();
         showDialog(this, AppDialog.ALERT, message);
     }
@@ -147,7 +213,7 @@ public abstract class BaseActivity extends Activity implements IModelListener {
     @Override
     public void setTitle(CharSequence title) {
         if (null == mTitle) {
-            mTitle = (TextView) findViewById(R.id.title);
+            mTitle = (TextView) findViewById(R.id.title_text);
         }
         mTitle.setText(title);
     }
@@ -155,9 +221,27 @@ public abstract class BaseActivity extends Activity implements IModelListener {
     @Override
     public void setTitle(int resid) {
         if (null == mTitle) {
-            mTitle = (TextView) findViewById(R.id.title);
+            mTitle = (TextView) findViewById(R.id.title_text);
         }
         mTitle.setText(resid);
+    }
+
+    public void setAvatar(int resid) {
+        if (null == mAvatar) {
+            mAvatar = (UrlImageView) findViewById(R.id.title_avatar);
+        }
+        mAvatar.setImageResource(resid);
+    }
+
+    public void setAvatar(String url) {
+        if (null == mAvatar) {
+            mAvatar = (UrlImageView) findViewById(R.id.title_avatar);
+            int avatarSize = getResources().getDimensionPixelSize(
+                    R.dimen.title_avatar_size);
+            mAvatar.setImageHeight(avatarSize);
+            mAvatar.setImageWidth(avatarSize);
+        }
+        mAvatar.setImageFromUrl(url);
     }
 
     public void showTitleButton(String text) {
@@ -174,12 +258,14 @@ public abstract class BaseActivity extends Activity implements IModelListener {
     }
 
     protected void onRightBtnClicked(View v) {
-    };
+    }
 
     protected void onAlertConfirmed() {
-    };
+    }
 
     protected void onAlertCanceled() {
-    };
+    }
 
+    protected void onReloadContent() {
+    }
 }

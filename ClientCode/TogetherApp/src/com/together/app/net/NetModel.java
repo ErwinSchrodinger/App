@@ -61,6 +61,12 @@ public class NetModel extends AbstractModel {
         case MODEL_ACTION_REGISTER:
             register();
             break;
+        case MODEL_ACTION_GET_EVENT_LIST:
+            getEventList();
+            break;
+        case MODEL_ACTION_GET_EVENT_DETAIL:
+            getEventDetail();
+            break;
         }
     }
 
@@ -97,6 +103,15 @@ public class NetModel extends AbstractModel {
     private void register() {
         Bundle data = (Bundle) fetch(KEY_SUBMIT_INFO);
         AsyncHttpRunner.register(data, this);
+    }
+
+    private void getEventList() {
+        Bundle data = (Bundle) fetch(KEY_SUBMIT_INFO);
+        AsyncHttpRunner.getEventList(data, this);
+    }
+
+    private void getEventDetail() {
+        Bundle data = (Bundle) fetch(KEY_SUBMIT_INFO);
     }
 
     private NetModel() {

@@ -2,7 +2,7 @@ package com.together.app;
 
 import android.app.Application;
 
-import com.together.app.util.AccessTokenKeeper;
+import com.together.app.util.SharePreferencesKeeper;
 import com.together.app.util.CrashHandler;
 
 public class TogetherApplication extends Application {
@@ -13,6 +13,6 @@ public class TogetherApplication extends Application {
     public void onCreate() {
         super.onCreate();
         CrashHandler.getInstance().init(this);
-        AccessTokenKeeper.init(this);
+        SharePreferencesKeeper.init(this);
     }
 }

@@ -3,7 +3,7 @@ package com.together.app.net;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.together.app.util.AccessTokenKeeper;
+import com.together.app.util.SharePreferencesKeeper;
 import com.weibo.sdk.android.Oauth2AccessToken;
 import com.weibo.sdk.android.Weibo;
 import com.weibo.sdk.android.WeiboAuthListener;
@@ -43,8 +43,8 @@ public class SinaManager {
                     String token = arg0.getString("access_token");
                     String expires_in = arg0.getString("expires_in");
                     mToken = new Oauth2AccessToken(token, expires_in);
-                    AccessTokenKeeper.keepSinaAccessToken(mToken);
-                    AccessTokenKeeper.clearTencent();
+                    SharePreferencesKeeper.keepSinaAccessToken(mToken);
+                    SharePreferencesKeeper.clearTencent();
                     listener.onComplete(arg0);
                 }
             }
@@ -66,7 +66,7 @@ public class SinaManager {
 
     private SinaManager() {
         mWeibo = Weibo.getInstance(CONSUMER_KEY, REDIRECT_URL);
-        mToken = AccessTokenKeeper.readSinaAccessToken();
+        mToken = SharePreferencesKeeper.readSinaAccessToken();
         mWeibo.accessToken = mToken;
     }
 }

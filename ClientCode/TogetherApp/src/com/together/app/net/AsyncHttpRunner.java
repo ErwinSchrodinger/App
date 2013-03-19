@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import android.os.Bundle;
 
 import com.together.app.data.DataEngine;
+import com.together.app.data.EventSearchCondition;
 import com.together.app.util.AppConfig;
 import com.together.app.util.Constant;
 import com.together.app.util.Errors;
@@ -81,8 +82,7 @@ public class AsyncHttpRunner {
             @Override
             public void run() {
                 try {
-                    String message = null;
-                    message = MessageFactory.getRegisterMsg(
+                    String message = MessageFactory.getRegisterMsg(
                             data.getString(Constant.KEY_ACCOUNT),
                             data.getString(Constant.KEY_PASSWORD),
                             data.getString(Constant.KEY_NAME),
@@ -119,6 +119,107 @@ public class AsyncHttpRunner {
                     e.printStackTrace();
                     listener.onRequestComplete(
                             AbstractModel.MODEL_ACTION_REGISTER,
+                            Errors.ERROR_RESPONSE_FORMAT, null);
+                }
+            }
+        }.start();
+    }
+
+    public static final void getEventList(final Bundle data,
+            final IHttpRequestListener listener) {
+        new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    EventSearchCondition condition = (EventSearchCondition) data
+                            .get(Constant.KEY_SEARCH_CONDITION);
+                    String message = MessageFactory.getEventListMsg(
+                            condition.getEventType(), condition.getAreaID(),
+                            condition.getCostType(), condition.getStartDate(),
+                            condition.getEndDate());
+
+                    String response = HttpManager.sendMessage(
+                            AppConfig.SERVER_URL + Constant.ACTION_EVENT_LIST,
+                            message, HttpManager.POST);
+
+                    if (null != response) {
+                        JSONObject body = new JSONObject(response)
+                                .getJSONObject(Constant.KEY_BODY);
+                        JSONObject status = body
+                                .getJSONObject(Constant.KEY_STATUS);
+                        String respCode = status
+                                .getString(Constant.KEY_STATUS_CODE);
+                        if (Errors.ERROR_SUCCESS.equals(respCode)) {
+                            MessageFactory.parseEventList(body);
+                            listener.onRequestComplete(
+                                    AbstractModel.MODEL_ACTION_GET_EVENT_LIST,
+                                    respCode, null);
+                        } else {
+                            listener.onRequestComplete(
+                                    AbstractModel.MODEL_ACTION_GET_EVENT_LIST,
+                                    respCode,
+                                    status.getString(Constant.KEY_STATUS_DESC));
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    listener.onRequestComplete(
+                            AbstractModel.MODEL_ACTION_GET_EVENT_LIST,
+                            Errors.ERROR_NETWORK, null);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    listener.onRequestComplete(
+                            AbstractModel.MODEL_ACTION_GET_EVENT_LIST,
+                            Errors.ERROR_RESPONSE_FORMAT, null);
+                }
+            }
+        }.start();
+    }
+
+    public static final void getEventDetail(final Bundle data,
+            final IHttpRequestListener listener) {
+        new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    String message = MessageFactory.getEventDetailMsg(data
+                            .getInt(Constant.KEY_EVENT_ID));
+
+                    String response = HttpManager
+                            .sendMessage(AppConfig.SERVER_URL
+                                    + Constant.ACTION_EVENT_DETAIL, message,
+                                    HttpManager.POST);
+
+                    if (null != response) {
+                        JSONObject body = new JSONObject(response)
+                                .getJSONObject(Constant.KEY_BODY);
+                        JSONObject status = body
+                                .getJSONObject(Constant.KEY_STATUS);
+                        String respCode = status
+                                .getString(Constant.KEY_STATUS_CODE);
+                        if (Errors.ERROR_SUCCESS.equals(respCode)) {
+                            MessageFactory.parseEventDetail(body);
+                            listener.onRequestComplete(
+                                    AbstractModel.MODEL_ACTION_GET_EVENT_DETAIL,
+                                    respCode, null);
+                        } else {
+                            listener.onRequestComplete(
+                                    AbstractModel.MODEL_ACTION_GET_EVENT_DETAIL,
+                                    respCode,
+                                    status.getString(Constant.KEY_STATUS_DESC));
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    listener.onRequestComplete(
+                            AbstractModel.MODEL_ACTION_GET_EVENT_DETAIL,
+                            Errors.ERROR_NETWORK, null);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    listener.onRequestComplete(
+                            AbstractModel.MODEL_ACTION_GET_EVENT_DETAIL,
                             Errors.ERROR_RESPONSE_FORMAT, null);
                 }
             }
